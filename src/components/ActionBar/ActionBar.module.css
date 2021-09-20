@@ -1,0 +1,7 @@
+.actionBar {
+    @apply flex fixed w-full bottom-0 p-8 justify-center border-t bg-white;
+}
+
+.actionBar > button {
+    @apply px-12
+}
