@@ -1,0 +1,9 @@
+.neon {
+    @apply p-4 rounded-full bg-green-400 h-32 w-32 flex justify-center items-center;
+    box-shadow:  0px 0px 150px #2cb382,
+             0px 0px 0px #3cf3b0;
+}
+
+.neon img {
+    @apply transform translate-x-1;
+}
