@@ -1,7 +1,31 @@
-.actionBar {
-    @apply flex fixed w-full bottom-0 p-8 justify-center border-t bg-white;
+svg path {
+    stroke-width: 1px;
 }
 
-.actionBar > button {
-    @apply px-12
+.actionBar {
+    @apply flex fixed w-full bottom-0 bg-white;
+}
+
+.duration {
+    @apply flex justify-center;
+}
+
+.music {
+    @apply flex m-2;
+}
+
+.artist {
+    @apply flex w-full items-center;
+}
+
+.artist > p {
+    @apply font-bold px-4;
+}
+
+.controls {
+    @apply flex px-20;
+}
+
+.cta {
+    @apply w-5 mx-2;
 }
