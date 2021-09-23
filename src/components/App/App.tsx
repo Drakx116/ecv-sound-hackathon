@@ -1,36 +1,70 @@
 import Play from "../Play/Play";
 import styles from "./App.module.css";
-import { defaultMusic, MusicContext } from "../../contexts/music";
+import { music, MusicContext } from "../../contexts/music";
 import Bubbles from "../Bubbles/Bubbles";
 import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { PlayIcon } from "@heroicons/react/solid";
+import AudioPlayer from "../AudioPlayer/AudioPlayer";
 
 function App() {
   const [selected, setSelected] = useState(artists[0]);
   const [play, setPlay] = useState(false);
+  const [informations, setInformations] = useState({});
+  const videoRef: HTMLVideoElement | any = useRef();
+
+  useEffect(() => {
+    if (typeof videoRef.current !== "undefined") {
+      //@ts-ignore
+      if (!informations.isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+    }
+
+    //@ts-ignore
+    if (
+      typeof videoRef.current !== "undefined" &&
+      //@ts-ignore
+      typeof informations.audioRef !== "undefined" &&
+      //@ts-ignore
+      typeof informations.fromTimeUpdate !== "undefined" &&
+      //@ts-ignore
+      informations.fromTimeUpdate
+    ) {
+      videoRef.current.currentTime =
+        //@ts-ignore
+        informations.audioRef.current.currentTime;
+    }
+  }, [informations]);
+
   return (
-    <MusicContext.Provider value={defaultMusic}>
+    <MusicContext.Provider value={{ informations, setInformations }}>
       <main
         className={styles.main}
         style={{ backgroundColor: play ? "black" : "white" }}
       >
         <AnimatePresence>
           {play && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.5 }}
-              exit={{ opacity: 0 }}
-              className="h-screen w-full absolute top-0 left-0 right-0 bottom-0 z-0 flex justify-center items-center overflow-hidden"
-            >
-              <video
-                autoPlay
-                className="w-full h-auto"
-                loop
-                muted
-                src={`/artists/${selected.name}/clip.webm`}
-              ></video>
-            </motion.div>
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.5 }}
+                exit={{ opacity: 0 }}
+                className="h-screen w-full absolute top-0 left-0 right-0 bottom-0 z-0 flex justify-center items-center overflow-hidden"
+              >
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  className="w-full h-auto"
+                  loop
+                  muted
+                  src={`/artists/${selected.name}/clip.webm`}
+                ></video>
+              </motion.div>
+              <AudioPlayer artist={selected} />
+            </>
           )}
         </AnimatePresence>
         <AnimatePresence>
@@ -55,7 +89,14 @@ function App() {
                     type="button"
                     className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2"
                     style={{ backgroundColor: selected.color }}
-                    onClick={() => setPlay(true)}
+                    onClick={() => {
+                      setInformations({
+                        ...selected,
+                        isPlaying: true,
+                        fromTimeUpdate: false,
+                      });
+                      setPlay(true);
+                    }}
                   >
                     <PlayIcon
                       className="-ml-1 mr-3 h-5 w-5"
@@ -80,7 +121,10 @@ function App() {
                 artist={artist}
                 play={play}
                 isSelected={selected.color === artist.color}
-                onClick={() => setSelected(artist)}
+                onClick={() => {
+                  setInformations({ ...informations, isPlaying: true });
+                  setSelected(artist);
+                }}
               />
             ))}
           </ul>
@@ -150,10 +194,34 @@ function Item({ artist, isSelected, onClick, play }: any) {
 }
 
 const artists = [
-  { name: "drake", color: "#ff0055" },
-  { name: "gambi", color: "#0099ff" },
-  { name: "postmalone", color: "#22cc88" },
-  { name: "travisscott", color: "#ffaa00" },
+  {
+    name: "drake",
+    author: "Drake",
+    title: "Hotline Bling",
+    color: "#ff0055",
+    mp3: "/assets/mp3/drake.mp3",
+  },
+  {
+    name: "gambi",
+    author: "Gambi",
+    title: "Macintosh",
+    color: "#0099ff",
+    mp3: "/assets/mp3/gambi.mp3",
+  },
+  {
+    name: "postmalone",
+    author: "Post Malone",
+    title: "Rockstar ft. 21 Savage",
+    color: "#22cc88",
+    mp3: "/assets/mp3/malone.mp3",
+  },
+  {
+    name: "travisscott",
+    author: "Travis Scott",
+    title: "Sicko Mode",
+    color: "#ffaa00",
+    mp3: "/assets/mp3/travis.mp3",
+  },
 ];
 
 const spring = {
