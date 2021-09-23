@@ -162,6 +162,7 @@ function AudioPlayer({ artist, goHome }: any) {
       </div>
       {/* balek */}
       <audio
+        id="audio"
         loop
         onLoadedData={(event: any) => setDuration(event.target.duration)}
         onTimeUpdate={(event: any) => {

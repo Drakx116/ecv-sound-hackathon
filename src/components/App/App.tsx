@@ -7,6 +7,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { PlayIcon } from "@heroicons/react/solid";
 import AudioPlayer from "../AudioPlayer/AudioPlayer";
 import Robot, { changeColor, changeColor2, fadeToAction } from "../Robot/Robot";
+import { ChromePicker, ColorResult } from "react-color";
+import { HexColorPicker } from "react-colorful";
 
 function App() {
   const [selected, setSelected] = useState(artists[0]);
@@ -14,7 +16,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [informations, setInformations] = useState({});
   const videoRef: HTMLVideoElement | any = useRef();
-
+  const [colorCustom, setColorCustom] = useState("#fff");
   const goHome = () => {
     fadeToAction("TurnBack", 1.5);
     setInformations({
@@ -25,8 +27,64 @@ function App() {
     setPlay(false);
   };
 
+  const jpp = (color: any) => {
+    setColorCustom(color);
+    setSelected({ ...selected, color: color });
+    console.log(selected);
+  };
+
+  const colorChange = (colorCustomEvent: any) => {
+    if (
+      //@ts-ignore
+      typeof informations.audioRef !== "undefined" &&
+      //@ts-ignore
+      informations.audioRef !== null
+    ) {
+      const baseFrequency = 5000;
+      const color = colorCustom;
+
+      // AUDIO CONTEXT - LOW PASS FILTER
+      //@ts-ignore
+      const context = new (window.AudioContext || window.webkitAudioContext)();
+      //@ts-ignore
+      const mediaElement = informations.audioRef.current;
+      //@ts-ignore
+      const source = context.createMediaElementSource(mediaElement);
+
+      const lowPass = context.createBiquadFilter();
+
+      // source.connect(highPass);
+      source.connect(lowPass);
+
+      lowPass.connect(context.destination);
+
+      lowPass.type = "lowpass";
+      lowPass.frequency.value = baseFrequency;
+      lowPass.Q.value = 0.7;
+
+      // change
+
+      const hexColors = color.replace("#", "").match(/.{1,2}/g);
+
+      const colors: any = [];
+      //@ts-ignore
+      hexColors.forEach((color: any) => {
+        colors.push(parseInt(color, 16));
+      });
+
+      // * GESTION DU VOLUME
+      mediaElement.volume = (colors[0] + colors[1] + colors[2]) / 765;
+
+      // 0 < brightness < 255
+      const brightness =
+        0.299 * colors[0] + 0.587 * colors[1] + 0.114 * colors[2];
+
+      lowPass.frequency.value = (5000 * brightness) / 255;
+    }
+  };
+
   useEffect(() => {
-    if (typeof videoRef.current !== "undefined") {
+    if (typeof videoRef.current !== "undefined" && videoRef.current !== null) {
       //@ts-ignore
       if (!informations.isPlaying) {
         videoRef.current.pause();
@@ -50,7 +108,9 @@ function App() {
       //@ts-ignore
       typeof informations.fromTimeUpdate !== "undefined" &&
       //@ts-ignore
-      informations.fromTimeUpdate
+      informations.fromTimeUpdate &&
+      //@ts-ignore
+      informations.audioRef.current !== null
     ) {
       videoRef.current.currentTime =
         //@ts-ignore
@@ -88,6 +148,13 @@ function App() {
                     src={`/artists/${selected.name}/clip.webm`}
                   ></video>
                 </motion.div>
+                <div className="fixed left-48 top-48 z-50">
+                  <HexColorPicker
+                    color={colorCustom}
+                    onChange={jpp}
+                    onMouseUp={colorChange}
+                  />
+                </div>
                 <AudioPlayer goHome={goHome} artist={selected} />
               </>
             )}
@@ -146,7 +213,7 @@ function App() {
                   key={artist.name}
                   artist={artist}
                   play={play}
-                  isSelected={selected.color === artist.color}
+                  isSelected={selected.name === artist.name}
                   onClick={() => {
                     setInformations({ ...informations, isPlaying: true });
                     setSelected(artist);

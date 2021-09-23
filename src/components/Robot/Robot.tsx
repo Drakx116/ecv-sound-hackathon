@@ -529,46 +529,24 @@ export function fadeToAction(name: any, duration: any) {
 
 //KAPPA
 function run() {
-  let increaseZ = (forward ? 30 : -30) * api.speed;
-  let increaseZCam = forward ? 10 : -10 * api.speed;
 
-  let time = 0;
-  var interval = setInterval(function () {
-    let z = scene.getObjectByName("model").position.z;
+    let increaseZ = (forward ? 30 : (-30)) * api.speed;
+    let stop = false;
 
-    if ((forward && z > 900) || (!forward && z < 0)) {
-      clearInterval(interval);
-      fadeToAction("Armature|Stop", 1.5);
+    var interval = setInterval(function () {
+        let z = scene.getObjectByName('model').position.z;
 
-      let stoppingTime = 0;
-      let stoppingInterval = setInterval(function () {
-        if (stoppingTime === 1400) {
-          clearInterval(stoppingInterval);
+        if ((forward && z >= 600) || (!forward && z <= 0)) {
+            clearInterval(interval);
+            fadeToAction('Armature|Stop', 1.5);
+            stop = true;
         }
-        camera.position.set(
-          camera.position.x,
-          camera.position.y,
-          camera.position.z + 5
-        );
-        camera.updateProjectionMatrix();
 
-        stoppingTime += 100;
-      }, 100);
-    }
+        if(!stop){
+            scene.getObjectByName('model').position.set(0,0,z + increaseZ);
+        }
 
-    scene.getObjectByName("model").position.set(0, 0, z + increaseZ);
-
-    if (time >= 700) {
-      camera.position.set(
-        camera.position.x,
-        camera.position.y,
-        camera.position.z + increaseZCam
-      );
-      camera.updateProjectionMatrix();
-    }
-
-    time += 100;
-  }, 100);
+    }, 100);
 }
 
 function onWindowResize() {
