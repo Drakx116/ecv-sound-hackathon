@@ -5,3 +5,86 @@
 body {
   font-family: "Be Vietnam Pro", sans-serif;
 }
+
+input[type=range] {
+  -webkit-appearance: none;
+  /* margin: 18px 0; */
+  /* width: auto; */
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  /* width: auto; */
+  height: 5px;
+  cursor: pointer;
+  background: #FCD34D;
+  border-radius: 1.3px;
+  margin-top: 7px;
+  /* border: 0.2px solid #010101; */
+}
+input[type=range]::-webkit-slider-thumb {
+  /* border: 1px solid #000000; */
+  height: 24px;
+  width: 24px;
+  border: 4px solid #FCD34D;
+  transform: translateY(-6px);
+  border-radius: 999px;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  transform: translateY(-10px);
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #FCD34D;
+}
+input[type=range]::-moz-range-track {
+  /* width: auto; */
+  height: 5px;
+  cursor: pointer;
+  background: #FCD34D;
+  border-radius: 1.3px;
+  /* border: 0.2px solid #010101; */
+}
+input[type=range]::-moz-range-thumb {
+  /* border: 1px solid #000000; */
+  height: 16px;
+  width: 16px;
+  border-radius: 999px;
+  background: #ffffff;
+  cursor: pointer;
+  border: 4px solid #FCD34D;
+}
+input[type=range]::-ms-track {
+  /* width: auto; */
+  height: 5px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  border-width: 16px 0;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #FCD34D;
+  /* border: 0.2px solid #010101; */
+  border-radius: 2.6px;
+}
+input[type=range]::-ms-fill-upper {
+  background: #FCD34D;
+  /* border: 0.2px solid #010101; */
+  border-radius: 2.6px;
+}
+input[type=range]::-ms-thumb {
+  border: 4px solid #FCD34D;
+  height: 16px;
+  width: 16px;
+  border-radius: 999px;
+  background: #ffffff;
+  cursor: pointer;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #FCD34D;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #FCD34D;
+}
