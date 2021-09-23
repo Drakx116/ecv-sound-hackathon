@@ -15,6 +15,16 @@ function App() {
   const [informations, setInformations] = useState({});
   const videoRef: HTMLVideoElement | any = useRef();
 
+  const goHome = () => {
+    fadeToAction("TurnBack", 1.5);
+    setInformations({
+      ...selected,
+      isPlaying: false,
+      fromTimeUpdate: false,
+    });
+    setPlay(false);
+  };
+
   useEffect(() => {
     if (typeof videoRef.current !== "undefined") {
       //@ts-ignore
@@ -78,7 +88,7 @@ function App() {
                     src={`/artists/${selected.name}/clip.webm`}
                   ></video>
                 </motion.div>
-                <AudioPlayer artist={selected} />
+                <AudioPlayer goHome={goHome} artist={selected} />
               </>
             )}
           </AnimatePresence>
