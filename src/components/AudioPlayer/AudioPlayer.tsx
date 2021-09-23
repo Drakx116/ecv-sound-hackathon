@@ -22,6 +22,15 @@ function AudioPlayer() {
   const [duration, setDuration] = useState(0);
   const [percentage, setPercentage] = useState(0);
 
+  const convertSecondsToMinutesAndSeconds = (total: number) => {
+    const minutes = Math.round(Math.floor(total / 60));
+    const seconds = Math.round(total - minutes * 60);
+    if (seconds < 10) {
+      return `${minutes}:0${seconds}`;
+    }
+    return `${minutes}:${seconds}`;
+  };
+
   const play = () => {
     setIsPlaying(true);
     audioRef.current.play();
@@ -56,6 +65,24 @@ function AudioPlayer() {
             <div className="mr-16">
               <p className="text-base font-bold text-gray-900">{data.title}</p>
               <p className="text-sm text-gray-600">{data.author}</p>
+            </div>
+            <div>
+              <div className="flex items-center">
+                {typeof audioRef.current !== "undefined" && (
+                  <>
+                    <p className="text-xs text-gray-600">
+                      {convertSecondsToMinutesAndSeconds(
+                        Number(audioRef.current.currentTime)
+                      )}{" "}
+                      -
+                    </p>
+                    <p className=" text-xs text-gray-600">
+                      &nbsp;
+                      {convertSecondsToMinutesAndSeconds(Number(duration))}
+                    </p>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -106,20 +133,3 @@ function AudioPlayer() {
 }
 
 export default AudioPlayer;
-
-{
-  /* <div className="flex items-center">
-            {typeof audioRef.current !== "undefined" && (
-              <>
-                <p className="mr-4 text-xs text-gray-600">
-                  {Math.round(audioRef.current.currentTime)}
-                </p>
-                <p className=" text-xs text-gray-600">{`${Math.round(
-                  Math.floor(duration / 60)
-                )}:${Math.round(
-                  duration - Math.floor(duration / 60) * 60
-                )}`}</p>
-              </>
-            )}
-          </div> */
-}
