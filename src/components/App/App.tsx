@@ -12,6 +12,8 @@ import { HexColorPicker } from "react-colorful";
 
 function App() {
   const [selected, setSelected] = useState(artists[0]);
+  const [source, setSource] = useState(null);
+  const [context, setContext] = useState(null);
   const [play, setPlay] = useState(false);
   const [loading, setLoading] = useState(true);
   const [informations, setInformations] = useState({});
@@ -44,42 +46,49 @@ function App() {
       const color = colorCustom;
 
       // AUDIO CONTEXT - LOW PASS FILTER
-      //@ts-ignore
-      const context = new (window.AudioContext || window.webkitAudioContext)();
+      if (context === null) {
+        //@ts-ignore
+        setContext(new (window.AudioContext || window.webkitAudioContext)());
+      }
       //@ts-ignore
       const mediaElement = informations.audioRef.current;
-      //@ts-ignore
-      const source = context.createMediaElementSource(mediaElement);
+      if (source === null && context !== null) {
+        //@ts-ignore
+        setSource(context.createMediaElementSource(mediaElement));
+      }
+      if (source !== null && context !== null) {
+        //@ts-ignore
+        const lowPass = context.createBiquadFilter();
 
-      const lowPass = context.createBiquadFilter();
+        // source.connect(highPass);
+        //@ts-ignore
+        source.connect(lowPass);
+        //@ts-ignore
+        lowPass.connect(context.destination);
 
-      // source.connect(highPass);
-      source.connect(lowPass);
+        lowPass.type = "lowpass";
+        lowPass.frequency.value = baseFrequency;
+        lowPass.Q.value = 0.7;
 
-      lowPass.connect(context.destination);
+        // change
 
-      lowPass.type = "lowpass";
-      lowPass.frequency.value = baseFrequency;
-      lowPass.Q.value = 0.7;
+        const hexColors = color.replace("#", "").match(/.{1,2}/g);
 
-      // change
+        const colors: any = [];
+        //@ts-ignore
+        hexColors.forEach((color: any) => {
+          colors.push(parseInt(color, 16));
+        });
 
-      const hexColors = color.replace("#", "").match(/.{1,2}/g);
+        // * GESTION DU VOLUME
+        mediaElement.volume = (colors[0] + colors[1] + colors[2]) / 765;
 
-      const colors: any = [];
-      //@ts-ignore
-      hexColors.forEach((color: any) => {
-        colors.push(parseInt(color, 16));
-      });
+        // 0 < brightness < 255
+        const brightness =
+          0.299 * colors[0] + 0.587 * colors[1] + 0.114 * colors[2];
 
-      // * GESTION DU VOLUME
-      mediaElement.volume = (colors[0] + colors[1] + colors[2]) / 765;
-
-      // 0 < brightness < 255
-      const brightness =
-        0.299 * colors[0] + 0.587 * colors[1] + 0.114 * colors[2];
-
-      lowPass.frequency.value = (5000 * brightness) / 255;
+        lowPass.frequency.value = (5000 * brightness) / 255;
+      }
     }
   };
 
