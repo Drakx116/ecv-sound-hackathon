@@ -46,8 +46,10 @@
   },
   "devDependencies": {
     "@types/react": "^17.0.22",
+    "@types/three": "^0.132.0",
     "autoprefixer": "^9.8.6",
     "postcss": "^7.0.36",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.14"
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.14",
+    "three": "^0.132.2"
   }
 }

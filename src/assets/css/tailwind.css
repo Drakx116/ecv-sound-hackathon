@@ -92,3 +92,12 @@ input[type=range]:focus::-ms-fill-lower {
 input[type=range]:focus::-ms-fill-upper {
   background: var(--color-bar);
 }
+
+.dg.ac {
+  display: none !important;
+  pointer-events: none !important;
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  z-index: 40 !important;
+}

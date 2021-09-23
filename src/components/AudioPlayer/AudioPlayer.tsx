@@ -74,7 +74,7 @@ function AudioPlayer({ artist }: any) {
 
   return (
     <>
-      <div className="fixed bottom-0 left-0 right-0 z-70 bg-white px-8 py-4 w-full flex items-center border-t-4 border-gray-200">
+      <div className="fixed bottom-0 left-0 right-0 z-70 bg-white px-8 py-4 w-full flex items-center border-t-4 border-gray-200 z-50 tran">
         <input
           type="range"
           value={currentTime}
@@ -146,7 +146,7 @@ function AudioPlayer({ artist }: any) {
             <ArrowCircleRightIcon className="h-8 w-8 text-gray-400" />
           </button>
         </div>
-        <div className="w-full flex justify-end">niveau sonore</div>
+        <div className="w-full flex justify-end text-white">niveau sonore</div>
       </div>
       {/* balek */}
       <audio
