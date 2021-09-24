@@ -34,6 +34,34 @@ function App() {
     setPlay(false);
   };
 
+  const previousSong = () => {
+    artists.map((artist, index) => {
+      if (artist.name === selected.name) {
+        if (index === 0) {
+          setInformations({ ...informations, isPlaying: true });
+          setSelected(artists[3]);
+        } else {
+          setInformations({ ...informations, isPlaying: true });
+          setSelected(artists[index - 1]);
+        }
+      }
+    });
+  };
+
+  const nextSong = () => {
+    artists.map((artist, index) => {
+      if (artist.name === selected.name) {
+        if (index === 3) {
+          setInformations({ ...informations, isPlaying: true });
+          setSelected(artists[0]);
+        } else {
+          setInformations({ ...informations, isPlaying: true });
+          setSelected(artists[index + 1]);
+        }
+      }
+    });
+  };
+
   const jpp = (color: any) => {
     setColorCustom(color);
     setSelected({ ...selected, color: color });
@@ -100,7 +128,12 @@ function App() {
   useEffect(() => {
     // animation with song
     //@ts-ignore
-    if (typeof videoRef.current !== "undefined" && videoRef.current !== null && informations.isPlaying) {
+    if (
+      typeof videoRef.current !== "undefined" &&
+      videoRef.current !== null &&
+      //@ts-ignore
+      informations.isPlaying
+    ) {
       if (
         videoRef.current.currentTime >= 2 &&
         videoRef.current.currentTime <= 29
@@ -276,7 +309,7 @@ function App() {
                     className="w-full h-auto"
                     loop
                     muted
-                    src={`/artists/${selected.name}/clip.webm`}
+                    src={`/artists/${selected.name}/opti.mp4`}
                   ></video>
                 </motion.div>
                 <div className="fixed left-48 top-48 z-50">
@@ -286,7 +319,12 @@ function App() {
                     onMouseUp={colorChange}
                   />
                 </div>
-                <AudioPlayer goHome={goHome} artist={selected} />
+                <AudioPlayer
+                  nextSong={nextSong}
+                  previousSong={previousSong}
+                  goHome={goHome}
+                  artist={selected}
+                />
               </>
             )}
           </AnimatePresence>

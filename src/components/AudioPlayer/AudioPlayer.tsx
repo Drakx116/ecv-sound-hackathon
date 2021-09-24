@@ -16,7 +16,7 @@ const data = {
   song: "/assets/mp3/rezz-edge.mp3",
 };
 
-function AudioPlayer({ artist, goHome }: any) {
+function AudioPlayer({ artist, goHome, nextSong, previousSong }: any) {
   const { informations, setInformations } = useContext(MusicContext);
   const [song, setSong] = useState(data);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -121,7 +121,7 @@ function AudioPlayer({ artist, goHome }: any) {
         <div className="w-full flex items-center justify-center">
           <button
             onClick={() => {
-              console.log("music left");
+              previousSong();
             }}
           >
             <ArrowCircleLeftIcon className="h-8 w-8 text-gray-400" />
@@ -144,7 +144,7 @@ function AudioPlayer({ artist, goHome }: any) {
           </button>
           <button
             onClick={() => {
-              console.log("music right");
+              nextSong();
             }}
           >
             <ArrowCircleRightIcon className="h-8 w-8 text-gray-400" />
