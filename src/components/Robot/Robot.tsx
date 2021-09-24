@@ -23,7 +23,7 @@ let gui: any = null;
 let models = ["modelopti"];
 let forward = true;
 
-const api = {
+export const api = {
   state: "Armature|HipHop",
   speed: 1,
   color: 0x444444,
@@ -156,7 +156,7 @@ function init(setLoading: any) {
         }
       },
       (xhr) => {
-        console.log(xhr);
+        // console.log(xhr);
       },
       function (e) {
         console.error(e);
@@ -490,6 +490,13 @@ function changeCameraAutoRotate(auto: any) {
 export function fadeToAction(name: any, duration: any) {
   previousAction = activeAction;
   activeAction = actions[name];
+  // console.log(activeAction)
+
+  if (previousAction === activeAction) return;
+
+  if(name === "Armature|BreakDance") {
+    activeAction.setLoop(THREE.LoopPingPong, 4)
+  }
 
   if (previousAction !== activeAction) {
     previousAction.fadeOut(duration);
@@ -529,24 +536,22 @@ export function fadeToAction(name: any, duration: any) {
 
 //KAPPA
 function run() {
+  let increaseZ = (forward ? 30 : -30) * api.speed;
+  let stop = false;
 
-    let increaseZ = (forward ? 30 : (-30)) * api.speed;
-    let stop = false;
+  var interval = setInterval(function () {
+    let z = scene.getObjectByName("model").position.z;
 
-    var interval = setInterval(function () {
-        let z = scene.getObjectByName('model').position.z;
+    if ((forward && z >= 600) || (!forward && z <= 0)) {
+      clearInterval(interval);
+      fadeToAction("Armature|Stop", 1.5);
+      stop = true;
+    }
 
-        if ((forward && z >= 600) || (!forward && z <= 0)) {
-            clearInterval(interval);
-            fadeToAction('Armature|Stop', 1.5);
-            stop = true;
-        }
-
-        if(!stop){
-            scene.getObjectByName('model').position.set(0,0,z + increaseZ);
-        }
-
-    }, 100);
+    if (!stop) {
+      scene.getObjectByName("model").position.set(0, 0, z + increaseZ);
+    }
+  }, 100);
 }
 
 function onWindowResize() {

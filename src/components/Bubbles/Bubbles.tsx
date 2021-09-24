@@ -4,7 +4,7 @@ import useMusics from "../../hooks/useMusics";
 
 function Bubbles() {
   const musics = useMusics();
-  console.log(musics);
+  // console.log(musics);
   const currentMusic = useContext(MusicContext);
   return (
     <>

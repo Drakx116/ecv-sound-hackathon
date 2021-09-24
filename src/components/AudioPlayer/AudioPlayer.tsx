@@ -5,6 +5,7 @@ import {
   ArrowCircleLeftIcon,
 } from "@heroicons/react/outline";
 import { MusicContext } from "../../contexts/music";
+import { fadeToAction } from "../Robot/Robot";
 
 // En attendant le useContext
 const data = {
@@ -44,6 +45,7 @@ function AudioPlayer({ artist, goHome }: any) {
   };
 
   const pause = () => {
+    fadeToAction("Armature|Stop", 1.5);
     setIsPlaying(false);
     setInformations({
       ...informations,

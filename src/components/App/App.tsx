@@ -6,7 +6,12 @@ import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
 import { useContext, useEffect, useRef, useState } from "react";
 import { PlayIcon } from "@heroicons/react/solid";
 import AudioPlayer from "../AudioPlayer/AudioPlayer";
-import Robot, { changeColor, changeColor2, fadeToAction } from "../Robot/Robot";
+import Robot, {
+  api,
+  changeColor,
+  changeColor2,
+  fadeToAction,
+} from "../Robot/Robot";
 import { ChromePicker, ColorResult } from "react-color";
 import { HexColorPicker } from "react-colorful";
 
@@ -32,7 +37,7 @@ function App() {
   const jpp = (color: any) => {
     setColorCustom(color);
     setSelected({ ...selected, color: color });
-    console.log(selected);
+    // console.log(selected);
   };
 
   const colorChange = (colorCustomEvent: any) => {
@@ -93,6 +98,123 @@ function App() {
   };
 
   useEffect(() => {
+    // animation with song
+    //@ts-ignore
+    if (typeof videoRef.current !== "undefined" && videoRef.current !== null && informations.isPlaying) {
+      if (
+        videoRef.current.currentTime >= 2 &&
+        videoRef.current.currentTime <= 29
+      ) {
+        fadeToAction("Armature|Swing", 1.5);
+        api.speed = 0.75;
+      }
+
+      if (
+        videoRef.current.currentTime > 29 &&
+        videoRef.current.currentTime <= 48
+      ) {
+        fadeToAction("Armature|Belly", 1.5);
+      }
+      if (
+        videoRef.current.currentTime > 48 &&
+        videoRef.current.currentTime <= 54
+      ) {
+        fadeToAction("Armature|Brooklyn", 1.5);
+        api.speed = 1;
+      }
+      if (
+        videoRef.current.currentTime > 54 &&
+        videoRef.current.currentTime <= 59
+      ) {
+        fadeToAction("Armature|Maraschino", 1.5);
+        api.speed = 1;
+      }
+      if (
+        videoRef.current.currentTime > 59 &&
+        videoRef.current.currentTime <= 85
+      ) {
+        fadeToAction("Armature|RunningMan", 1.5);
+        api.speed = 1;
+      }
+      if (
+        videoRef.current.currentTime > 85 &&
+        videoRef.current.currentTime <= 97
+      ) {
+        fadeToAction("Armature|Rumba", 1.5);
+        api.speed = 1.25;
+      }
+      if (
+        videoRef.current.currentTime > 97 &&
+        videoRef.current.currentTime <= 100
+      ) {
+        fadeToAction("Armature|Wave", 1.5);
+        api.speed = 0.75;
+      }
+      if (
+        videoRef.current.currentTime > 100 &&
+        videoRef.current.currentTime <= 125
+      ) {
+        fadeToAction("Armature|Swing", 1.5);
+        api.speed = 1.25;
+      }
+      if (
+        videoRef.current.currentTime > 125 &&
+        videoRef.current.currentTime <= 140
+      ) {
+        fadeToAction("Armature|Belly", 1.5);
+        api.speed = 1;
+      }
+      if (
+        videoRef.current.currentTime > 140 &&
+        videoRef.current.currentTime <= 170
+      ) {
+        fadeToAction("Armature|RunningMan", 1.5);
+        api.speed = 1;
+      }
+      if (
+        videoRef.current.currentTime > 170 &&
+        videoRef.current.currentTime <= 200
+      ) {
+        fadeToAction("Armature|Brooklyn", 1.5);
+        api.speed = 1;
+      }
+      if (
+        videoRef.current.currentTime > 200 &&
+        videoRef.current.currentTime <= 220
+      ) {
+        fadeToAction("Armature|Swing", 1.5);
+        api.speed = 1;
+      }
+      if (
+        videoRef.current.currentTime > 220 &&
+        videoRef.current.currentTime <= 250
+      ) {
+        fadeToAction("Armature|Rumba", 1.5);
+        api.speed = 0.75;
+      }
+      if (
+        videoRef.current.currentTime > 250 &&
+        videoRef.current.currentTime <= 270
+      ) {
+        fadeToAction("Armature|Wave", 1.5);
+        api.speed = 1;
+      }
+      if (
+        videoRef.current.currentTime > 270 &&
+        videoRef.current.currentTime <= 300
+      ) {
+        fadeToAction("Armature|BreakDance", 1.5);
+        api.speed = 1;
+      }
+      if (
+        videoRef.current.currentTime > 300 &&
+        videoRef.current.currentTime <= 320
+      ) {
+        fadeToAction("Armature|Stop", 1.5);
+        api.speed = 1;
+      }
+    }
+
     if (typeof videoRef.current !== "undefined" && videoRef.current !== null) {
       //@ts-ignore
       if (!informations.isPlaying) {
