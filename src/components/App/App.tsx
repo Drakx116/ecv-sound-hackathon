@@ -126,6 +126,7 @@ function App() {
   };
 
   useEffect(() => {
+    document.title = "x-bot-player";
     // animation with song
     //@ts-ignore
     if (
@@ -312,7 +313,7 @@ function App() {
                     src={`/artists/${selected.name}/opti.mp4`}
                   ></video>
                 </motion.div>
-                <div className="fixed left-48 top-48 z-50">
+                <div className="fixed left-48 top-48 z-50 hidden md:block">
                   <HexColorPicker
                     color={colorCustom}
                     onChange={jpp}
@@ -336,7 +337,7 @@ function App() {
                 exit={{ opacity: 0 }}
                 className="max-w-screen-lg mx-auto"
               >
-                <div className="flex flex-col w-2/3">
+                <div className="flex flex-col md:w-2/3">
                   <h1 className="text-6xl font-bold">
                     Discover the music that matches the colors you love.
                   </h1>
@@ -373,9 +374,9 @@ function App() {
           </AnimatePresence>
           <AnimateSharedLayout>
             <ul
-              className={`ease-in-out transition-all duration-200 absolute top-1/2 right-0 transform ${
-                !play ? "-translate-x-homecircle" : "-translate-x-24"
-              } -translate-y-1/2`}
+              className={`ease-in-out transition-all mt-12 md:mt-0 justify-center duration-200 md:absolute top-1/2 z-50 xl:right-0 right-12 transform flex flex-wrap items-center md:block ${
+                !play ? "xl:-translate-x-homecircle" : "xl:-translate-x-24"
+              } md:-translate-y-1/2`}
             >
               {artists.map((artist) => (
                 <Item
@@ -407,7 +408,7 @@ function App() {
                   opacity: 0,
                   transform: "translateX(100%) translateY(-50%)",
                 }}
-                className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-1/4 w-homecircle h-homecircle rounded-full overflow-hidden bg-dusky"
+                className="z-50 absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-1/4 w-homecircle h-homecircle rounded-full overflow-hidden bg-dusky hidden xl:block"
                 style={{
                   backgroundColor: selected.color,
                   borderColor: selected.color,
@@ -446,7 +447,7 @@ function App() {
 function Item({ artist, isSelected, onClick, play }: any) {
   return (
     <motion.li
-      className={styles.item}
+      className={`${styles.item} ${play && "opacity-0 md:opacity-100"}`}
       onClick={onClick}
       style={{ backgroundColor: artist.color, transform: play && "initial" }}
     >

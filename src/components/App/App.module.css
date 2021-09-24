@@ -1,26 +1,26 @@
 .main {
-  @apply bg-creme h-screen w-full flex justify-center items-center relative overflow-hidden;
+  @apply bg-creme md:h-screen w-full md:flex md:justify-center md:items-center relative overflow-hidden p-8 md:p-16 xl:p-0 md:mt-0;
 }
 
 .neon {
-    @apply p-4 rounded-full bg-green-400 h-32 w-32 flex justify-center items-center;
-    box-shadow:  0px 0px 150px #2cb382,
-             0px 0px 0px #3cf3b0;
+  @apply p-4 rounded-full bg-green-400 h-32 w-32 flex justify-center items-center;
+  box-shadow: 0px 0px 150px #2cb382, 0px 0px 0px #3cf3b0;
 }
 
 .neon img {
-    @apply transform translate-x-1;
+  @apply transform translate-x-1;
 }
 
 .item {
-  display: block;
-  width: 100px;
-  height: 100px;
+  /* display: block; */
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   margin: 50px 20px;
   position: relative;
   cursor: pointer;
   flex-shrink: 0;
+  /* margin: 20px; */
 }
 
 .outline {
@@ -31,12 +31,28 @@
   bottom: -20px;
   border: 10px solid white;
   border-radius: 50%;
+  /* margin: 20px; */
 }
 
-.item:first-child {
-  transform: translateX(50px);
-}
+@media screen and (min-width: 1280px) {
+  .item:first-child {
+    transform: translateX(50px);
+  }
 
-.item:last-child {
-  transform: translateX(50px);
+  .item:last-child {
+    transform: translateX(50px);
+  }
+
+  .item {
+    margin: initial;
+    /* display: block; */
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 50px 20px;
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+    padding: 20px;
+  }
 }

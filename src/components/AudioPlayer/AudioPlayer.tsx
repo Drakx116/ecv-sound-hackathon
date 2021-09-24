@@ -89,17 +89,17 @@ function AudioPlayer({ artist, goHome, nextSong, previousSong }: any) {
           <div className="flex items-center w-full">
             <img
               src={`/artists/${artist.name}/pp.jpg`}
-              className="h-12 w-12 border-rounded rounded-lg mr-4"
+              className="h-12 w-12 border-rounded rounded-lg mr-4 hidden md:block"
               alt=""
             />
-            <div className="mr-16">
+            <div className="md:mr-16 mr-4">
               <p className="text-base font-bold text-gray-900">
                 {artist.title}
               </p>
               <p className="text-sm text-gray-600">{artist.author}</p>
             </div>
             <div>
-              <div className="flex items-center">
+              <div className="md:flex items-center hidden">
                 {typeof audioRef.current !== "undefined" && (
                   <>
                     <p className="text-xs text-gray-600">
@@ -108,7 +108,7 @@ function AudioPlayer({ artist, goHome, nextSong, previousSong }: any) {
                       )}{" "}
                       -
                     </p>
-                    <p className=" text-xs text-gray-600">
+                    <p className="text-xs text-gray-600">
                       &nbsp;
                       {convertSecondsToMinutesAndSeconds(Number(duration))}
                     </p>
@@ -157,8 +157,10 @@ function AudioPlayer({ artist, goHome, nextSong, previousSong }: any) {
             style={{ backgroundColor: artist.color }}
             onClick={() => goHome()}
           >
+            <span className="hidden md:block">
             Go home
-            <HomeIcon className="ml-2 -mr-0.5 h-4 w-4" aria-hidden="true" />
+            </span>
+            <HomeIcon className="md:ml-2 md:-mr-0.5 h-4 w-4" aria-hidden="true" />
           </button>
         </div>
       </div>
