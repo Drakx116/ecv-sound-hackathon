@@ -39,12 +39,12 @@ export const api = {
   dirPosition: {
     x: -51,
     y: 247,
-    z: -90,
+    z: 800,
   },
   camPosition: {
     x: 0,
     y: 100,
-    z: 1000,
+    z: 1050,
   },
   intensity: 0.3,
   dirIntensity: 0.3,
